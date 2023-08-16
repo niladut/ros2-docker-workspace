@@ -1,0 +1,90 @@
+FROM nvidia/cuda:12.2.0-base-ubuntu22.04
+
+# Ref: https://roboticseabass.com/2021/04/21/docker-and-ros/
+ 
+# Minimal setup
+RUN apt-get update \
+ && apt-get install -y locales lsb-release
+ARG DEBIAN_FRONTEND=noninteractive
+RUN dpkg-reconfigure locales
+ 
+# Following the ROS2 Humble official setup guide: https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
+
+# Locale Setup
+RUN locale  # check for UTF-8
+
+RUN apt update && apt install -y --no-install-recommends locales 
+RUN locale-gen en_US en_US.UTF-8 
+RUN update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 
+RUN export LANG=en_US.UTF-8 
+RUN locale  # verify settings
+
+
+# Setup Sources
+RUN apt install -y --no-install-recommends software-properties-common 
+
+# Add repository for ROS2 packages
+RUN add-apt-repository universe
+
+RUN apt update && apt install -y --no-install-recommends curl 
+
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg 
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+
+# Install ROS2 Humble
+RUN apt update && apt install -y --no-install-recommends ros-humble-desktop
+RUN apt update && apt install -y --no-install-recommends ros-dev-tools
+
+# Install other packages
+RUN apt update &&  apt install -y --no-install-recommends python3-rosdep
+RUN apt update &&  apt install -y --no-install-recommends git
+
+
+RUN rosdep init \
+ && rosdep fix-permissions \
+ && rosdep update
+ 
+
+
+
+
+#Python packages
+RUN apt install -y --no-install-recommends  python3-pip 
+RUN pip3 install -U catkin_tools 
+
+
+# Setup
+RUN echo "\n\
+source /opt/ros/humble/setup.bash" >> /root/.bashrc
+
+RUN echo "\n\
+if [ -f /root/ros2_ws/install/setup.bash ]; then source /root/ros2_ws/install/setup.bash; fi\n\
+export ROS_WORKSPACE=/root/ros2_ws\n\
+export ROS_LOCATIONS='root=/opt/ros/noetic/share:dev=/root/ros2_ws/install:src=/root/ros2_ws/src'\n\
+export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/lib" >> /root/.bashrc
+
+# Set ROS2 Environment Variables
+ENV ROS_DISTRO=humble
+ENV AMENT_PREFIX_PATH=/opt/ros/humble
+ENV COLCON_PREFIX_PATH=/opt/ros/humble
+
+
+# Set up aliases
+RUN echo "\n\
+alias rcsource='source ~/.bashrc'\n\
+alias k='ros2 run teleop_twist_keyboard teleop_twist_keyboard.py'" >> /root/.bash_aliases
+
+
+
+# RUN mkdir -p /root/catkin_ws/src
+# WORKDIR /root/catkin_ws/src
+# RUN catkin_create_pkg ros_package std_msgs rospy roscpp
+WORKDIR /root/ros2_ws
+# RUN /bin/bash -c "source /ros_entrypoint.sh && catkin build"
+
+
+# COPY ./ros2_entrypoint.sh /
+# ENTRYPOINT ["/ros2_entrypoint.sh"]
+# RUN ["chmod", "+x", "/ros2_entrypoint.sh"]
+# CMD ["/bin/sh", "-c"]

@@ -1,0 +1,40 @@
+version: "3.7"
+
+x-env-file-common-variables: &env_file
+    config/ros2/${HOSTNAME}.env
+
+services:
+
+  ros2-dev:
+    container_name: ros2-dev
+    image: ros2-dev:nvidia-humble
+    network_mode: host
+    ipc: host # TODO: Investigate  issue
+    build:
+      context: .
+      dockerfile: Dockerfile.nvidia-ros2-humble
+      network: host
+    environment:
+      - "DISPLAY"
+      - "NVIDIA_VISIBLE_DEVICES=all"
+      - "NVIDIA_DRIVER_CAPABILITIES=all"
+      # - "ROS_DOMAIN_ID=25" # Optional: to choose ROS domain
+      # - "ROS_LOCALHOST_ONLY=0" # Optional: set to 1 if you want to present network communication
+    env_file: *env_file
+    privileged: true
+    restart: unless-stopped
+    # command: bash -c "sleep 3; source "
+    command: tail -f /dev/null
+    volumes:
+      - type: bind
+        source: /dev
+        target: /dev
+      - $HOME/logs/docker/ros2:/root/.ros/
+      - $HOME/user/ros2_ws:/root/ros2_ws
+      - $HOME/user/docker_ws:/root/docker_ws
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - $HOME/.Xauthority:/root/.Xauthority:rw
+      - /var/run/dbus:/var/run/dbus
+      - $HOME/.ssh:/root/.ssh
+
+
