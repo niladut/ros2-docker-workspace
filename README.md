@@ -183,16 +183,19 @@ The provided script helps you manage your ROS 2 Docker development environment w
 
 1. Install the "Dev Containers" extension for VSCode.
 2. Open your project directory in VSCode.
-3. Once the docker container has started using the above command, press `Ctrl` + `Shift` + `P` (or `Cmd` + `Shift` + `P` on macOS), type "Dev Containers: Attach to running container," and select the running container.
+3. Once the docker container has started using the above command, press `Ctrl` + `Shift` + `P` (or `Cmd` + `Shift` + `P` on macOS), type "Dev Containers: Attach to running container," and select the running container. VSCode will start the container and open a new window within it, providing a seamless development environment.
+4. In the new window, navigate to "File > Open Folder..." and choose /root/ros2_ws folder inside the container to open.
+5. Select files in the left side bar file explorer to open in the editor for development.
 
-VSCode will start the container and open a new window within it, providing a seamless development environment.
+Due to the volume bindings configurations made earlier, the files edited in the VSCode Dev Container environment will be saved directly to the local host system and they will persist even when the container is stopped or deleted.
+
 For more information the use of this plugin: [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) 
 
 
 ## Feedback
 
 Feel free to explore advanced features like hardware device access, using ROS packages, and further customization within the Docker environment.
-Also feel free to suggest improvements and features.
+Also feel free to suggest improvements and features by creating [issues](https://github.com/niladut/ros2-docker-workspace/issues) or posting in the [discussions](https://github.com/niladut/ros2-docker-workspace/discussions).
 
 ## Author
 
