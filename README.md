@@ -116,7 +116,10 @@ export HOSTNAME=mypc
 
 ### 3. Using the Bash Script
 
-The provided Bash script simplifies the management of your ROS 2 Docker development environment. It offers commands to start, stop, restart, or build the environment using Docker Compose. Here's how to use the script:
+The provided Bash script simplifies the management of your ROS 2 Docker development environment. It offers commands to start, stop, restart, or build the environment using Docker Compose. The scipt will work on Ubuntu and OSX operating systems. If you are on Windows, you can refer to the docker commands in the `ros2_docker.sh` bash scipt file.
+
+
+Here's how to use the `ros2_docker.sh` script on Ubuntu or OSX:
 
 #### 3.1. Setting Up Environment Variables:
     
@@ -181,15 +184,50 @@ The provided script helps you manage your ROS 2 Docker development environment w
 
 ### 4. Set Up Development Environment with VSCode
 
-1. Install the "Dev Containers" extension for VSCode.
-2. Open your project directory in VSCode.
-3. Once the docker container has started using the above command, press `Ctrl` + `Shift` + `P` (or `Cmd` + `Shift` + `P` on macOS), type "Dev Containers: Attach to running container," and select the running container. VSCode will start the container and open a new window within it, providing a seamless development environment.
-4. In the new window, navigate to "File > Open Folder..." and choose /root/ros2_ws folder inside the container to open.
-5. Select files in the left side bar file explorer to open in the editor for development.
+Setting Up a Development Environment with VSCode and Docker for ROS2
 
-Due to the volume bindings configurations made earlier, the files edited in the VSCode Dev Container environment will be saved directly to the local host system and they will persist even when the container is stopped or deleted.
+#### Step 4.1: Install the "Dev Containers" Extension
 
-For more information the use of this plugin: [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) 
+Begin by installing the "Dev Containers" extension in VSCode.
+
+#### Step 4.2: Open Project in VSCode
+
+1. Launch VSCode and open your project directory.
+2. After starting the Docker container (as described earlier), press `Ctrl` + `Shift` + `P` (or `Cmd` + `Shift` + `P` on macOS).
+3. Type "Dev Containers: Attach to running container" and select the running container.
+4. VSCode will open a new window within the container, providing a seamless development environment.
+
+#### Step 4.3: Open ROS2 Workspace
+
+1. In the new window, navigate to **"File > Open Folder..."**.
+2. Choose the `/root/ros2_ws` folder inside the container to open.
+
+#### Step 4.4: Edit Files
+
+1. Use the left sidebar file explorer to select and edit files for development.
+2. Changes made in the `/root/ros2_ws` folder of the VSCode Dev Container environment will be saved directly to the local host system, persisting even when the container is stopped.
+
+For more detailed information, refer to the [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) guide.
+
+
+## Command Line for the Docker Container
+
+Open a shell terminal linked to the Docker container:
+
+1. Navigate to **"Terminal > New Terminal"** in VSCode.
+2. A shell terminal will open for executing commands within the ROS2 docker container.
+   
+  
+You can also link any shell terminal on the host system to the Docker container using the following command (on Ubuntu):
+
+```
+docker exec -it ros2-dev bash
+```
+
+
+## Graphical Applications with Docker
+
+Running the script with the start argument lets you run GUI applications like gazebo or rviz2 from any shell terminal linked to the ros2-dev Docker container. (Tested on Ubuntu.)
 
 
 ## Feedback
@@ -197,8 +235,14 @@ For more information the use of this plugin: [Developing inside a Container](htt
 Feel free to explore advanced features like hardware device access, using ROS packages, and further customization within the Docker environment.
 Also feel free to suggest improvements and features by creating [issues](https://github.com/niladut/ros2-docker-workspace/issues) or posting in the [discussions](https://github.com/niladut/ros2-docker-workspace/discussions).
 
+## Additional Referneces and Links
+
+- [VSCode, Docker, and ROS2 -- by Allison Thackston](https://www.allisonthackston.com/articles/vscode-docker-ros2.html)
+- [A Guide to Docker and ROS -- by Robotic Sea Bass](https://roboticseabass.com/2021/04/21/docker-and-ros/)
+
+
 ## Author
 
-This ROS 2 Docker Workspace guide was authored by [niladut](https://github.com/niladut).
+This ROS 2 Docker Workspace guide was authored by [Niladri Dutta](https://github.com/niladut).
 
 Happy coding! 🤖🐍🐬
