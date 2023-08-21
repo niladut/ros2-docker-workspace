@@ -181,9 +181,9 @@ The provided script helps you manage your ROS 2 Docker development environment w
 
 ### 4. Set Up Development Environment with VSCode
 
-1. Install the "Remote - Containers" extension for VSCode.
+1. Install the "Dev Containers" extension for VSCode.
 2. Open your project directory in VSCode.
-3. Press `Ctrl` + `Shift` + `P` (or `Cmd` + `Shift` + `P` on macOS), type "Remote-Containers: Open Folder in Container," and select the project folder.
+3. Once the docker container has started using the above command, press `Ctrl` + `Shift` + `P` (or `Cmd` + `Shift` + `P` on macOS), type "Dev Containers: Attach to running container," and select the running container.
 
 VSCode will start the container and open a new window within it, providing a seamless development environment.
 For more information the use of this plugin: [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) 
