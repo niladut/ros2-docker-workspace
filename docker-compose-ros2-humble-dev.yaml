@@ -29,12 +29,11 @@ services:
       - type: bind
         source: /dev
         target: /dev
-      - $HOME/logs/docker/ros2:/root/.ros/
-      - $HOME/user/ros2_ws:/root/ros2_ws
-      - $HOME/user/docker_ws:/root/docker_ws
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - $HOME/.Xauthority:/root/.Xauthority:rw
       - /var/run/dbus:/var/run/dbus
       - $HOME/.ssh:/root/.ssh
-
+      - $HOME/logs/docker/ros2:/root/.ros/
+      - $HOME/ros2_ws:/root/ros2_ws
+      - $HOME/ros2-docker-workspace:/root/docker_ws # This repository
 
