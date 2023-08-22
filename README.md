@@ -52,7 +52,7 @@ services:
       - "NVIDIA_VISIBLE_DEVICES=all"
       - "NVIDIA_DRIVER_CAPABILITIES=all"
       # - "ROS_DOMAIN_ID=25" # Optional: to choose ROS domain
-      # - "ROS_LOCALHOST_ONLY=0" # Optional: set to 1 if you want to present network communication
+      # - "ROS_LOCALHOST_ONLY=0" # Optional: set to 1 to isolate ROS message communication to the host system only
     env_file: *env_file
     privileged: true
     restart: unless-stopped
@@ -62,13 +62,13 @@ services:
       - type: bind
         source: /dev
         target: /dev
-      - $HOME/logs/docker/ros2:/root/.ros/
-      - $HOME/user/ros2_ws:/root/ros2_ws
-      - $HOME/user/docker_ws:/root/docker_ws
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - $HOME/.Xauthority:/root/.Xauthority:rw
       - /var/run/dbus:/var/run/dbus
       - $HOME/.ssh:/root/.ssh
+      - $HOME/logs/docker/ros2:/root/.ros/
+      - $HOME/ros2_ws:/root/ros2_ws # Set this to your ROS2 workspace folder
+      - $HOME/ros2-docker-workspace:/root/ros2-docker-workspace # Optional: Set this to the current repository's folder
 ```
 
 
